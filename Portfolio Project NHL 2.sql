@@ -1,4 +1,6 @@
-
+-- This was a practice file of querying NHL stats for the 2021 season, after about 3 days of 
+--Learning SQL, among other things. This was my experience after only about 3 days of practice.
+-- So I'm probably much better now.
 --Performing SQL Queries on a database of NHL statistics from the 2020-2021 season
 
 --Let's start by checking if I imported the database correctly...
