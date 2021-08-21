@@ -144,6 +144,22 @@ order by Poff.P desc
 
 --And the only problems we seem to have are still the NULLs. This can, again, be fixed with some data cleaning.
 
+--Here, I added a new table of the season standings for each team.
+-- I just want to take a second to really congratulate myself here. On my first try, only 4 days in
+-- to learning SQL commands, I downloaded a dataset (NHL_Standings) into excel, I cleaned the data a bit 
+-- so that it matched up with the other tables, I created a temporary table, I joined it to the new table
+-- I imported, and ordered it properly, without any errors being thrown or debugging needed. 
+-- I am so proud of myself right now.
+
+with TeamPoints as
+(select Team, Sum(Points) as Total_Points
+From NHLStats2021..['NHL_Player_Stats']
+Group by Team)
+Select reg.Team, reg.Total_points, stan.PTS as Reg_season_PTS
+From TeamPoints reg
+Right Join NHLStats2021..['NHL_Standings'] stan
+on reg.Team=stan.Team
+order by stan.PTS desc
 
 --How about the percentage of points that each team scored, out of the total?
 --In here are some of the things I tried. Partitioning into sets got me each teams total points, but
