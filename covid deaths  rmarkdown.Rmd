@@ -1,0 +1,82 @@
+---
+title: "COVID Deaths"
+author: "Sean L"
+date: "27/08/2021"
+output: html_document
+---
+
+## COVID deaths are very much in the public spotlight right now.
+
+Let's focus in on proportions of those deaths and see where most of the deaths are occuring
+
+First let's bring in our libraries
+
+```{r}
+library(tidyverse) # import
+library(dplyr) # import
+library(ggplot2)
+```
+
+We need the tidyverse so we can mess around with our data and graph it and such. next, let's read in our data from a cvs file
+
+```{r}
+data <- read.csv("C:/Users/seanl/Desktop/Portfolio projects/deaths_covid_data.csv", header=TRUE)
+
+```
+
+Now that our data is in, I notice that in our file there are a ton of blank cells in the deaths columns. That will become a problem when we try to sum everything up and maximize and such. Let us change all of those to zeros.
+
+```{r}
+data$total_deaths[is.na(data$total_deaths)] <- 0
+head(data)
+```
+
+Now the total deaths column is all zero's where the blank cells used to be. I could go through and do this for all of them, but for my analysis I only need the total deaths column to work out.
+
+Let's make a new dataframe that gets the maximum deaths for each country.
+
+```{r}
+total_deaths_by_country <- data %>% group_by(location) %>% summarise(total_deaths = max(total_deaths, na.rm = TRUE))
+
+
+View(total_deaths_by_country)
+```
+
+And there we are.Let's add a new column and find the proportion of world deaths each country had.
+
+```{r}
+total_deaths_by_country$death_ratio <- ((total_deaths_by_country$total_deaths/4441418)*100) 
+head(total_deaths_by_country)
+```
+
+Also notice that this data Frame has continents and the world total in as well. Let's remove those temporarily...
+
+```{r}
+total_deaths_by_country <- total_deaths_by_country[-c(2, 12, 13, 69, 154, 194, 230),]
+View(total_deaths_by_country)
+```
+
+And now we'll make a pie chart showing all the countries.
+
+```{r}
+ggplot(total_deaths_by_country, aes(x = "", y = location, fill = total_deaths)) +
+  geom_bar(stat = "Identity") +
+  coord_polar(theta = "y")
+```
+
+Okay, even if I wanted to clean that up it's really ugly. There are just too many countries. But we can use this idea to make a pie chart for each continent and see their contributions to total covid deaths.
+
+```{r}
+total_deaths_by_continent <- total_deaths_by_country[c(2, 12, 13, 69, 154, 194),]
+View(total_deaths_by_continent)
+```
+
+```{r}
+ggplot(total_deaths_by_continent, aes(x = 1, y = total_deaths, fill = location))+
+  geom_col(position = 'stack') +
+  geom_text(aes(label = paste(location, ': ', total_deaths)), 
+            position = position_stack(vjust = .5)) +
+  coord_polar(theta = "y") +
+  theme_void()
+```
+
