@@ -23,7 +23,7 @@ top_genre: varchar
 birthday: datetime
 id: int
 
-Solution: 
+***Solution: 
 -- Join tables on name
 -- average the ratings over name OVER ( Partition by name) 
 -- orde rby birthday
@@ -46,3 +46,10 @@ Cloris Leachman	1926-04-30	2.5
 Cloris Leachman	1926-04-30	2.5
 Rosemary Harris	1930-09-19	6
 ...             ...         ...
+
+Discussion:
+
+This query involved several high level ideas for an SQL query. It required a join, a CTE, and a window function to find average ratings.
+My main difficulties with SQL queries such as this is not the understanding of the data, or the planning of a solution. It remains my
+inexperience with the syntax. However, being able to output something like this after only about a week of studying this as well as python pandas,
+I think that's a pretty good starting point.
