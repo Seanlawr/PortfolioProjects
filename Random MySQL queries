@@ -7,21 +7,21 @@ Use the names as keys when joining the tables.
 
 nominee_filmography
 
-name: varchar
-amg_movie_id: varchar
-movie_title: varchar
-role_type: varchar
-rating: float
-year: int
-id: int
+name:           varchar
+amg_movie_id:   varchar
+movie_title:    varchar
+role_type:      varchar
+rating:         float
+year:           int
+id:             int
 
 nominee_information
 
-name: varchar
-amg_person_id: varchar
-top_genre: varchar
-birthday: datetime
-id: int
+name:           varchar
+amg_person_id:  varchar
+top_genre:      varchar
+birthday:       datetime
+id:             int
 
 ***Solution: 
 -- Join tables on name
