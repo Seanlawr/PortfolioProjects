@@ -1,0 +1,48 @@
+Working through Stratascratch hard problems for practice. This is my solution for problem "Find the average rating of movie stars"
+
+Netflix Hard  General Practice  ID 9605
+
+Find the average rating of each movie star along with their names and birthdays. Sort the result in the ascending order based on the birthday. 
+Use the names as keys when joining the tables.
+
+nominee_filmography
+
+name: varchar
+amg_movie_id: varchar
+movie_title: varchar
+role_type: varchar
+rating: float
+year: int
+id: int
+
+nominee_information
+
+name: varchar
+amg_person_id: varchar
+top_genre: varchar
+birthday: datetime
+id: int
+
+Solution: 
+-- Join tables on name
+-- average the ratings over name OVER ( Partition by name) 
+-- orde rby birthday
+
+with CTE as (
+    select f.name, f.rating, i.birthday
+    from nominee_filmography f
+    left join nominee_information i on f.name=i.name
+    where f.rating <> 0)
+select name, birthday, avg(rating) over (partition by name) as avg_rating
+from CTE
+order by birthday, name;
+
+Results (first 5 or so):
+
+name	          birthday	  avg_rating
+Ruby Dee	      1924-10-27	1
+Hal Holbrook	  1925-02-17	7
+Cloris Leachman	1926-04-30	2.5
+Cloris Leachman	1926-04-30	2.5
+Rosemary Harris	1930-09-19	6
+...             ...         ...
